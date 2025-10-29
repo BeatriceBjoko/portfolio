@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment } from "@react-three/drei";
+import CubeNav from "./components/CubeNav";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+	return (
+		<>
+			<section id="home" className="hero">
+				<div className="canvas-wrap">
+					<Canvas camera={{ position: [3.2, 2.0, 4.0], fov: 50 }}>
+						<ambientLight intensity={0.3} />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+						{/* KEY light: from front-right, low enough so the front really gets light */}
+						<directionalLight position={[2.2, 1.0, 3.2]} intensity={1.55} />
+
+						{/* FILL light: soft, from front-left (so shadows are less harsh)  */}
+						<directionalLight position={[-2.0, 0.6, 1.2]} intensity={0.55} />
+
+						{/* RIM light: from behind for relief/contour */}
+						<directionalLight position={[-0.6, 0.9, -3.6]} intensity={0.75} />
+
+						{/* HDRI for realistic reflections */}
+						<Environment preset="city" />
+
+						<CubeNav />
+
+						<OrbitControls enableZoom={false} />
+					</Canvas>
+				</div>
+				<h1 className="brand">Beatrice Bjoko</h1>
+			</section>
+
+			{/* Target sections*/}
+			<section id="projects" className="section">
+				Projects sectie (grid komt later)
+			</section>
+			<section id="about" className="section">
+				About sectie (bio/skills)
+			</section>
+			<section id="contact" className="section">
+				Contact sectie (mail + socials)
+			</section>
+		</>
+	);
 }
-
-export default App
