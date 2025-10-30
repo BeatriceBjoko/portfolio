@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import CubeNav from "./components/CubeNav";
 import "./App.css";
+import GuideArrows from "./components/GuideArrows";
 
 export default function App() {
 	return (
@@ -27,6 +28,7 @@ export default function App() {
 
 						<OrbitControls enableZoom={false} />
 					</Canvas>
+					<GuideArrows />
 				</div>
 				<h1 className="brand">Beatrice Bjoko</h1>
 			</section>
