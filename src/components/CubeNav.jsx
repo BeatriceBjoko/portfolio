@@ -1,4 +1,6 @@
 import { Text } from "@react-three/drei";
+import CubeEdgesFlow from "./CubeEdgesFlow";
+import { useState } from "react";
 
 // Config constants
 const PLANE_SIZE = 1.8;
@@ -13,8 +15,10 @@ const faces = [
 ];
 
 function Face({ label, name, position, rotation, onSelect }) {
+	const [hovered, setHovered] = useState(false);
+
 	return (
-		<group position={position} rotation={rotation}>
+		<group position={position} rotation={rotation} scale={hovered ? 1.05 : 1}>
 			<mesh
 				name={name}
 				onClick={(e) => {
@@ -23,9 +27,11 @@ function Face({ label, name, position, rotation, onSelect }) {
 				}}
 				onPointerOver={(e) => {
 					e.stopPropagation();
+					setHovered(true);
 					document.body.style.cursor = "pointer";
 				}}
 				onPointerOut={() => {
+					setHovered(false);
 					document.body.style.cursor = "default";
 				}}
 			>
@@ -42,6 +48,7 @@ function Face({ label, name, position, rotation, onSelect }) {
 
 export default function CubeNav() {
 	const handleSelect = (name) => {
+		// smooth scroll
 		const id = { home: "home", projects: "projects", about: "about", contact: "contact" }[name];
 		const el = id && document.getElementById(id);
 		if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -51,10 +58,9 @@ export default function CubeNav() {
 		<group>
 			{/* frame kubus */}
 
-			<mesh>
-				<boxGeometry args={[FRAME_SIZE, FRAME_SIZE, FRAME_SIZE]} />
-				<meshStandardMaterial color="#0d0e11" metalness={0.1} roughness={0.8} />
-			</mesh>
+			{/* gradient + animated flow edges */}
+
+			<CubeEdgesFlow size={FRAME_SIZE} lineWidth={1.2} opacity={0.95} />
 
 			{/* rendering faces */}
 
